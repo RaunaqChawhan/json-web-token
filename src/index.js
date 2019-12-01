@@ -85,6 +85,14 @@ server.post('/login', async (req, res) => {
     }
 })
 
+//3. Logout a user
+server.post('/logout', (_req, res) => {
+    res.clearCookie('refreshtoken');
+    return res.send({
+        message: 'Logged out'
+    })
+});
+
 
 server.listen(process.env.PORT, () => 
     console.log(`Server listening on port ${process.env.PORT}`)
