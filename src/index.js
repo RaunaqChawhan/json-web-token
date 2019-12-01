@@ -11,6 +11,7 @@ const { createAccessToken,
      } = require('./tokens.js');
 
 const { fakeDB } = require('./fakeDB.js');
+const { isAuth } = require('./isAuth.js');
 
 const server = express();
 
@@ -92,6 +93,23 @@ server.post('/logout', (_req, res) => {
         message: 'Logged out'
     })
 });
+
+//4. Protected route
+server.post('/protected', async (req, res) => {
+    try {
+        const userId = isAuth(req);
+        if(userId !== null) {
+            res.send({
+                data: 'This is protected data.'
+            })
+        }
+
+    } catch(err) {
+        res.send({
+            error: `${err.message}`
+        })
+    }
+})
 
 
 server.listen(process.env.PORT, () => 
