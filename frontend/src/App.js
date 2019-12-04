@@ -7,11 +7,32 @@ import Register from './components/Register';
 import Protected from './components/Protected';
 import Content from './components/Content';
 
+export const UserContext = React.createContext([]);
+
 function App() {
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const logOutCallback = async () => {
+
+  }
+
+  useEffect(() => {
+
+  }, []);
+
   return (
-    <div className="App">
-      App
-    </div>
+    <UserContext.Provider value={[user, setUser]}>
+      <div className="App">
+        <Navigation logOutCallback={logOutCallback} />
+        <Router id="router">
+          <Login path="login" />
+          <Register path="register"/>
+          <Protected path="protected" />
+          <Content path="/" />
+        </Router>
+      </div>
+    </UserContext.Provider>
   );
 }
 
