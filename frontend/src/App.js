@@ -17,9 +17,25 @@ function App() {
 
   }
 
+  //First thing get a new access token if a refresh token exist
   useEffect(() => {
+    async function checkRefreshToken() {
+      const result = await (await fetch('http://localhost:4000/refresh_token'), {
+        method: 'POST',
+        credentials: 'include', //Needed to include the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).json();
+      setUser({
+        accesstoken: result.accesstoken
+      });
+      setLoading(false);
+    }
+    checkRefreshToken();
+  }, []); //it will fire off this when we mount the application; it will run just one time
 
-  }, []);
+  if(loading) return <div>Loading ...</div>
 
   return (
     <UserContext.Provider value={[user, setUser]}>
